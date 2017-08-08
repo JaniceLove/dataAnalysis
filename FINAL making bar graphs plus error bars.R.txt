@@ -1,0 +1,58 @@
+#To create graphs with error bars
+#Author: Janice Love
+#Date: March 20, 2017 
+#Last updated: March 28, 2017
+
+
+#Read csv file into RStudio: file > open > select file
+	#variable <- read.csv("C:\\File_path\\File_Name.csv"), open file first and then copy file name 
+myData <- read.csv("C:\\Users\\jlove\\Desktop\\file_name.csv")
+
+#download package "pastecs" for summary stats
+install.packages("pastecs") #must be connected to the internet  
+
+#load package 
+library("pastecs")
+
+#For list of stats (mean, median, mode, std error, std dev, etc)
+stat.desc(myData)
+
+#To generate T_test
+	#Add info for arguments
+	#variable <- t.test (x, y)
+myData_ttest <- t.test(myData$CTRL, myData$EXP)
+myData_ttest  #will generate info, this is Welch's Two Sample T Test 
+
+#Assign sample means to variables 
+Ctrl.ave <- 126.3325
+Exp.Ave <- 79.505
+
+#Create vector of means 
+averages <- c(Ctrl.ave, Exp.Ave)
+
+#Create basic barplot 
+barplot (averages)
+
+#Assign standard errors to variables 
+ctrl.err <- 4.45939528
+exp.err <- 7.1770148
+
+#Create vector of standard errors 
+std.errors <- c(ctrl.err, exp.err)
+
+#Set top boundary of plot
+plotTop <- max (averages + std.errors)
+
+#To generate the error bars on the barplot
+	#The following code is from Steven Holland at http://strata.uga.edu/8370/rtips/barPlotErrorbars.html
+
+  #Check labels before generating barCenters barplot, CHANGE TITLE ("main")
+barCenters <- barplot (averages, names.arg = c("Ctrl", "Exp"), 
+	main = "myData", xlab = "p < 0.05", ylab = "Length (micrometers)", ylim = c(0, plotTop))
+
+segments (barCenters, averages - std.errors, barCenters, averages + std.errors, lwd = 2)
+
+arrows (barCenters, averages - std.errors, barCenters, averages + std.errors, lwd = 2, angle = 90, code = 3)
+
+
+

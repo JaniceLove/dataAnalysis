@@ -5,15 +5,14 @@
 
 myData <- read.csv("//home/janicelove/Desktop/ra.slc12a1.csv",header=FALSE)
 
-plot(V2 ~ as.factor(V1), data= myData, ylab = "absolute length (micrometers)", xlab="treatment")
+plot(V2 ~ as.factor(V1), data= myData, ylab = "absolute length (micrometers)", xlab="Treatment")
 
 #to reorder x-axis 
 x1 = factor (myData$V1, levels=c("DMSO", "RA", "DEAB"))
 plot(V2 ~ x1, data= myData, ylab = "absolute length of irx1b+ domain (micrometers)", xlab="treatment", 
      col = c("#999999", "#7D05fc", "#f9ea04"))
 
-#The following is from: http://www.sthda.com/english/wiki/one-way-anova-test-in-r
-
+##The following is from: http://www.sthda.com/english/wiki/one-way-anova-test-in-r
 #Compute analysis of variance
 res.aov <- aov(V2 ~ V1, data = myData)
 
@@ -45,6 +44,7 @@ plot(res.aov, 2)
 
 # Extract the residuals
 aov_residuals <- residuals(object = res.aov )
+
 # Run Shapiro-Wilk test: non parametric alternative to one-way ANOVA 
 shapiro.test(x = aov_residuals )
 

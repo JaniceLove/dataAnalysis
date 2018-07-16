@@ -1,0 +1,2 @@
+#To filter nonzero rows
+awk '{ if ($2 != 0) { print } }' Galaxy26-\[Sort_on_data_24\].tabular > Galaxy26-nonzero 
